@@ -39,6 +39,21 @@ Tauri桌面客户端 + React前端 + 云端AI API + 本地GPU预览。客户端�
 - **Extends**: 无（全新项目）
 - **Adjacent**: 无
 
+## MVP优先级
+- 全流程闭环：剧本→分镜→AI生图→AI生视频+时间轴→配音+对位→导出成片
+- 角色库管理和模板库在MVP中简化实现
+
+## AI模型策略
+- 图片生成：多模型统一接入（即梦/Seedance、MidJourney、Stable Diffusion等），用户自选
+- 视频生成：多模型统一接入（Seedance、Kling、Vidu等），用户自选
+- 配音合成：多服务统一接入（讯飞、ElevenLabs、百度语音等），用户自选
+
+## 素材策略
+- 允许用户导入本地素材（图片/视频/音频）与AI生成素材混用
+
+## 存储策略
+- 本地优先，用户可手动上传备份到云端
+
 ## Constraints
 - 技术栈：Tauri 2.x + React 18+ + TypeScript + TailwindCSS + shadcn/ui
 - AI生成依赖云端API，需联网使用（编辑和预览可离线）
