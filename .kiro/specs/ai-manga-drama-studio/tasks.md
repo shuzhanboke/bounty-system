@@ -44,7 +44,7 @@
   - _Requirements: 1.1, 1.4_
   - _Boundary: ScriptEditor_
 
-- [ ] 2.2 分镜自动拆解与卡片展示
+- [x] 2.2 分镜自动拆解与卡片展示
   - 实现剧本→分镜拆解逻辑：按场景标记和对话行拆解为Storyboard列表
   - 实现StoryboardPanel展示分镜卡片列表
   - 实现StoryboardCard展示画面描述、角色、对话、运镜建议
