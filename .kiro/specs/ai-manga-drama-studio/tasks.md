@@ -3,7 +3,7 @@
 ## 基础阶段
 
 - [ ] 1. 项目脚手架与开发环境搭建
-- [ ] 1.1 初始化Tauri 2 + React 19 + TypeScript项目
+- [x] 1.1 初始化Tauri 2 + React 19 + TypeScript项目
   - 使用create-tauri-app创建项目，配置React 19、TypeScript 5、TailwindCSS 4、shadcn/ui
   - 配置Vite构建、ESLint、Prettier
   - 项目可在本地`npm run tauri dev`启动并显示空白窗口

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://raw.githubusercontent.com/nicegui/nicegui/refs/heads/main/tauri/src-tauri/gen/schemas/desktop-schema.json",
+  "productName": "AI漫剧工作室",
+  "version": "0.1.0",
+  "identifier": "com.manga-studio.app",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [
+      {
+        "title": "AI漫剧工作室",
+        "width": 1280,
+        "height": 800,
+        "resizable": true,
+        "fullscreen": false
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "plugins": {
+    "fs": {
+      "scope": ["$APPDATA/**", "$DOWNLOAD/**", "$DOCUMENT/**"]
+    },
+    "shell": {
+      "open": true
+    }
+  }
+}
