@@ -9,7 +9,7 @@
   - 项目可在本地`npm run tauri dev`启动并显示空白窗口
   - _Requirements: —_
 
-- [ ] 1.2 安装核心依赖与配置Zustand状态管理
+- [x] 1.2 安装核心依赖与配置Zustand状态管理
   - 安装zustand、react-timeline-editor、@tauri-apps/api、@tauri-apps/plugin-fs、@tauri-apps/plugin-dialog、@tauri-apps/plugin-shell
   - 创建4个空store文件（projectStore、timelineStore、generationStore、accountStore）
   - 应用根组件可渲染，store可正常读写
