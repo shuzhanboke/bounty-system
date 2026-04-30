@@ -28,7 +28,7 @@
   - 应用启动后显示完整布局框架，面板可切换
   - _Requirements: —_
 
-- [ ] 1.5 核心类型定义与数据模型
+- [x] 1.5 核心类型定义与数据模型
   - 在各feature/types.ts中定义Project、Scene、Storyboard、Character、Asset、TimelineData、Track、Clip、GenerationTask等核心接口
   - 在services/generationService.ts中定义GenerationService、GenerationOrchestrator接口
   - TypeScript编译无错误，所有类型可被其他模块引用
