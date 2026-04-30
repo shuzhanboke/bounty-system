@@ -1,9 +1,26 @@
+import { useState, useCallback } from "react";
 import { Layout } from "./components/layout/Layout";
-import { FileText } from "lucide-react";
+import { ScriptEditor } from "./features/script/ScriptEditor";
+import { useScriptAutoSave } from "./features/script/useScriptAutoSave";
+import type { PanelType } from "./components/layout/Sidebar";
 
 function App() {
+  const [activePanel, setActivePanel] = useState<PanelType>("script");
+  const [scriptText, setScriptText] = useState("");
+
+  const handleAutoSave = useCallback(async (data: unknown) => {
+    console.log("[AutoSave]", data);
+  }, []);
+
+  useScriptAutoSave({
+    data: { scriptText },
+    onSave: handleAutoSave,
+  });
+
   return (
     <Layout
+      activePanel={activePanel}
+      onPanelChange={setActivePanel}
       rightPanel={
         <div>
           <h3 className="mb-2 text-sm font-semibold text-gray-400">属性面板</h3>
@@ -16,11 +33,14 @@ function App() {
         </div>
       }
     >
-      <div className="flex flex-col items-center justify-center gap-4 py-20">
-        <FileText size={48} className="text-blue-400" />
-        <h2 className="text-xl font-semibold">开始创作你的漫剧</h2>
-        <p className="text-sm text-gray-400">在左侧面板中选择剧本编辑器开始编写</p>
-      </div>
+      {activePanel === "script" && (
+        <ScriptEditor value={scriptText} onChange={setScriptText} />
+      )}
+      {activePanel !== "script" && (
+        <div className="flex flex-col items-center justify-center gap-4 py-20">
+          <p className="text-sm text-gray-400">此面板功能开发中...</p>
+        </div>
+      )}
     </Layout>
   );
 }
