@@ -1,17 +1,40 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { Layout } from "./components/layout/Layout";
 import { ScriptEditor } from "./features/script/ScriptEditor";
 import { StoryboardPanel } from "./features/script/StoryboardPanel";
+import { StoryboardDetail } from "./features/script/StoryboardDetail";
 import { useScriptAutoSave } from "./features/script/useScriptAutoSave";
+import { parseScriptToScenes } from "./features/script/scriptParser";
 import type { PanelType } from "./components/layout/Sidebar";
+import type { Storyboard } from "./features/script/types";
 
 function App() {
   const [activePanel, setActivePanel] = useState<PanelType>("script");
   const [scriptText, setScriptText] = useState("");
   const [selectedStoryboardId, setSelectedStoryboardId] = useState<string | null>(null);
+  const [storyboardUpdates, setStoryboardUpdates] = useState<Map<string, Partial<Storyboard>>>(new Map());
+
+  const scenes = useMemo(() => parseScriptToScenes(scriptText), [scriptText]);
+  const allStoryboards = useMemo(() => scenes.flatMap((s) => s.storyboards), [scenes]);
+  const selectedStoryboard = useMemo(() => {
+    if (!selectedStoryboardId) return null;
+    const sb = allStoryboards.find((s) => s.id === selectedStoryboardId);
+    if (!sb) return null;
+    const updates = storyboardUpdates.get(selectedStoryboardId);
+    return updates ? { ...sb, ...updates } : sb;
+  }, [selectedStoryboardId, allStoryboards, storyboardUpdates]);
 
   const handleAutoSave = useCallback(async (data: unknown) => {
     console.log("[AutoSave]", data);
+  }, []);
+
+  const handleStoryboardUpdate = useCallback((id: string, updates: Partial<Storyboard>) => {
+    setStoryboardUpdates((prev) => {
+      const next = new Map(prev);
+      const existing = next.get(id) ?? {};
+      next.set(id, { ...existing, ...updates });
+      return next;
+    });
   }, []);
 
   useScriptAutoSave({
@@ -24,7 +47,12 @@ function App() {
       activePanel={activePanel}
       onPanelChange={setActivePanel}
       rightPanel={
-        activePanel === "script" || activePanel === "storyboard" ? (
+        selectedStoryboard ? (
+          <StoryboardDetail
+            storyboard={selectedStoryboard}
+            onUpdate={handleStoryboardUpdate}
+          />
+        ) : activePanel === "script" || activePanel === "storyboard" ? (
           <StoryboardPanel
             scriptText={scriptText}
             selectedStoryboardId={selectedStoryboardId}

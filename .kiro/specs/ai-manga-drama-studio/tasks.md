@@ -52,7 +52,7 @@
   - _Requirements: 1.1, 1.2, 1.5_
   - _Boundary: StoryboardPanel_
 
-- [ ] 2.3 分镜编辑与AI生成指令预览
+- [x] 2.3 分镜编辑与AI生成指令预览
   - 实现分镜画面描述编辑功能
   - 修改画面描述时实时更新generationPrompt字段
   - 角色选择下拉列表（角色库存在时）
