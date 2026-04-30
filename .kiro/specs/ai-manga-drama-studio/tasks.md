@@ -15,7 +15,7 @@
   - 应用根组件可渲染，store可正常读写
   - _Requirements: —_
 
-- [ ] 1.3 Tauri后端基础结构与IPC通信验证
+- [x] 1.3 Tauri后端基础结构与IPC通信验证
   - 创建src-tauri/src/main.rs，注册所有Tauri Commands占位
   - 创建commands/目录（project.rs、export.rs、backup.rs、system.rs）
   - 创建services/目录（ffmpeg_service.rs、storage_service.rs）
