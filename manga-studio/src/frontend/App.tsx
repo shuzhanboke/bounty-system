@@ -1,9 +1,10 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import { Layout } from "./components/layout/Layout";
 import { ScriptEditor } from "./features/script/ScriptEditor";
 import { StoryboardPanel } from "./features/script/StoryboardPanel";
 import { StoryboardDetail } from "./features/script/StoryboardDetail";
 import { CharacterManager } from "./features/character/CharacterManager";
+import { useCharacterStore } from "./features/character/characterStore";
 import { useScriptAutoSave } from "./features/script/useScriptAutoSave";
 import { parseScriptToScenes } from "./features/script/scriptParser";
 import type { PanelType } from "./components/layout/Sidebar";
@@ -37,6 +38,26 @@ function App() {
       return next;
     });
   }, []);
+
+  const setOnCharacterChanged = useCharacterStore((s) => s.setOnCharacterChanged);
+
+  useEffect(() => {
+    setOnCharacterChanged((characterId: string) => {
+      const affectedIds = allStoryboards
+        .filter((sb) => sb.characterIds.includes(characterId))
+        .map((sb) => sb.id);
+      if (affectedIds.length > 0) {
+        setStoryboardUpdates((prev) => {
+          const next = new Map(prev);
+          for (const id of affectedIds) {
+            const existing = next.get(id) ?? {};
+            next.set(id, { ...existing, needsRegeneration: true });
+          }
+          return next;
+        });
+      }
+    });
+  }, [allStoryboards, setOnCharacterChanged]);
 
   useScriptAutoSave({
     data: { scriptText },

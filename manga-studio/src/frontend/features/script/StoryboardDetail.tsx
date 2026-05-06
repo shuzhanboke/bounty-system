@@ -1,16 +1,23 @@
 import { useState } from "react";
 import { Eye } from "lucide-react";
+import { CharacterSelector } from "../character/CharacterSelector";
+import { useCharacterStore } from "../character/characterStore";
 import type { Storyboard } from "./types";
 
 interface StoryboardDetailProps {
   storyboard: Storyboard;
   onUpdate: (id: string, updates: Partial<Storyboard>) => void;
-  characterNames?: Record<string, string>;
 }
 
-export function StoryboardDetail({ storyboard, onUpdate, characterNames = {} }: StoryboardDetailProps) {
+export function StoryboardDetail({ storyboard, onUpdate }: StoryboardDetailProps) {
+  const { characters } = useCharacterStore();
   const [editDescription, setEditDescription] = useState(storyboard.sceneDescription);
   const [editCamera, setEditCamera] = useState(storyboard.cameraSuggestion);
+
+  const characterNames: Record<string, string> = {};
+  for (const c of characters) {
+    characterNames[c.id] = c.name;
+  }
 
   const handleDescriptionChange = (value: string) => {
     setEditDescription(value);
@@ -22,8 +29,19 @@ export function StoryboardDetail({ storyboard, onUpdate, characterNames = {} }: 
     onUpdate(storyboard.id, { cameraSuggestion: value });
   };
 
+  const handleCharacterChange = (ids: string[]) => {
+    onUpdate(storyboard.id, { characterIds: ids });
+  };
+
+  const characterDescriptions = storyboard.characterIds
+    .map((id) => characters.find((c) => c.id === id))
+    .filter(Boolean)
+    .map((c) => c!.appearanceDescription)
+    .filter(Boolean);
+
   const promptPreview = [
     editDescription,
+    ...characterDescriptions,
     storyboard.dialogue && `对话：${storyboard.dialogue}`,
     storyboard.narration && `旁白：${storyboard.narration}`,
     editCamera && `运镜：${editCamera}`,
@@ -62,6 +80,14 @@ export function StoryboardDetail({ storyboard, onUpdate, characterNames = {} }: 
           value={editCamera}
           onChange={(e) => handleCameraChange(e.target.value)}
           placeholder="如：特写、远景、俯拍..."
+        />
+      </div>
+
+      <div>
+        <label className="mb-1 block text-xs text-gray-400">关联角色</label>
+        <CharacterSelector
+          selectedCharacterIds={storyboard.characterIds}
+          onChange={handleCharacterChange}
         />
       </div>
 
