@@ -61,7 +61,7 @@
   - _Boundary: StoryboardPanel_
 
 - [ ] 3. (P) 角色库管理
-- [ ] 3.1 (P) 角色CRUD与参考图上传
+- [x] 3.1 (P) 角色CRUD与参考图上传
   - 实现CharacterManager面板：角色列表、新增、编辑、删除
   - 实现CharacterForm：名称、外貌描述、风格标签、参考图上传
   - 参考图通过Tauri dialog选择文件，复制到项目assets目录

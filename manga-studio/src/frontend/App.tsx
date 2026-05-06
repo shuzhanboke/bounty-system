@@ -3,6 +3,7 @@ import { Layout } from "./components/layout/Layout";
 import { ScriptEditor } from "./features/script/ScriptEditor";
 import { StoryboardPanel } from "./features/script/StoryboardPanel";
 import { StoryboardDetail } from "./features/script/StoryboardDetail";
+import { CharacterManager } from "./features/character/CharacterManager";
 import { useScriptAutoSave } from "./features/script/useScriptAutoSave";
 import { parseScriptToScenes } from "./features/script/scriptParser";
 import type { PanelType } from "./components/layout/Sidebar";
@@ -81,7 +82,8 @@ function App() {
           onSelectStoryboard={setSelectedStoryboardId}
         />
       )}
-      {activePanel !== "script" && activePanel !== "storyboard" && (
+      {activePanel === "character" && <CharacterManager />}
+      {activePanel !== "script" && activePanel !== "storyboard" && activePanel !== "character" && (
         <div className="flex flex-col items-center justify-center gap-4 py-20">
           <p className="text-sm text-gray-400">此面板功能开发中...</p>
         </div>
